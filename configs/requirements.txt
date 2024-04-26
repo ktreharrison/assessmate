@@ -1,0 +1,12 @@
+flake8
+black
+pylint
+bandit
+pyftpdlib
+sourcery
+ruff
+pyright
+mypy
+pytype
+pyment 
+cleanpy 
