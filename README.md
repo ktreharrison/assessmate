@@ -56,7 +56,7 @@ Follow the on-screen prompts to analyze your Python code.
 
 | Before | After |
 |--------|--------|
-| ![demo code prescript](image-2.png) | ![demo code after script](image-1.png)|
+| ![demo code prescript](assets/image-2.png) | ![demo code after script](assets/image-1.png)|
 
 ---
 
