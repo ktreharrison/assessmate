@@ -20,23 +20,46 @@ reset="\033[0m"
 file_path=""
 dir_path="$(pwd)"
 
-if [ ! -d "venv" ]; then
-    echo "Virtual environment not found. Please run the setup script first."
-    read -p "Do you want to run the setup script now? (y/n) " choice
-    if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
-        configs/setup.sh
-        source .venv/bin/activate
-    elif [ "$choice" = "n" ] || [ "$choice" = "N" ]; then
-        # Run the script without activating the virtual environment
-        echo "Continuing without activating the virtual environment..."
-    else
-        echo "Invalid choice. Exiting..."
-        exit 1
+# Check for the existence of any virtual environment directory
+# Function to activate virtual environment
+activate_virtualenv() {
+    local venv_dirs=("venv" ".venv" "env" ".env")
+    local venv_found=false
+
+    # Check if any of the virtual environment directories exist
+    for dir in "${venv_dirs[@]}"; do
+        if [ -d "$dir" ]; then
+            source "$dir/bin/activate"
+            venv_found=true
+            break
+        fi
+    done
+
+# If virtual environment not found, prompt user to set up
+    if [ "$venv_found" = false ]; then
+        echo "Virtual environment not found. Please run the setup script first."
+        read -p "Do you want to run the setup script now? (y/n) " choice
+        if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+            configs/setup.sh
+            for dir in "${venv_dirs[@]}"; do
+                if [ -d "$dir" ]; then
+                    source "$dir/bin/activate"
+                    break
+                fi
+            done
+        elif [ "$choice" = "n" ] || [ "$choice" = "N" ]; then
+            # Run the script without activating the virtual environment
+            echo "Continuing without activating the virtual environment..."
+        else
+            echo "Invalid choice. Exiting..."
+            exit 1
+        fi
     fi
-else
-    # Activate the virtual environment
-    source venv/bin/activate
-fi
+}
+
+# Call the function to activate virtual environment
+activate_virtualenv
+
 
 # Function to select a file or directory for analysis
 select_file_or_directory() {
@@ -47,12 +70,14 @@ select_file_or_directory() {
         file_path=""
         read -p "Enter the path to the Python file for analysis: " file_path
         if [ -f "$file_path" ]; then
-            run_code_checks "$file_path"
-            run_pytype_and_merge_pyi "$file_path"
-            add_docstring_with_pyment "$file_path" 
-            run_black "$file_path"
-            run_pylint "$file_path"
             run_sourcery "$file_path"
+            run_pylint "$file_path"
+            run_black "$file_path"
+            run_pytype_and_merge_pyi "$file_path"
+            add_docstring_with_pyment "$file_path"
+            run_code_checks "$file_path"
+
+
         else
             echo "File not found. Exiting."
         fi
@@ -63,21 +88,22 @@ select_file_or_directory() {
     if [ -z "$dir_path" ]; then
         dir_path=$(pwd)
     fi
-    
+
     if [ -d "$dir_path" ]; then
-        run_pytype_and_merge_pyi "$dir_path"
-        add_docstring_with_pyment "$dir_path" 
-        run_code_checks "$dir_path"
-        run_black
         run_pylint "$dir_path"
+        run_black
         run_sourcery "$dir_input"
+        run_pytype_and_merge_pyi "$dir_path"
+        add_docstring_with_pyment "$dir_path"
+        run_code_checks "$dir_path"
+
     else
         read -p "Directory not found. Do you want to create it? (y/n): " create_dir_choice
         if [ "$create_dir_choice" = "y" ] || [ "$create_dir_choice" = "Y" ]; then
             mkdir -p "$dir_path"
             if [ $? -eq 0 ]; then
                 run_pytype_and_merge_pyi "$dir_path"
-                add_docstring_with_pyment "$dir_path" 
+                add_docstring_with_pyment "$dir_path"
                 run_code_checks "$dir_path"
                 run_black
                 run_pylint "$dir_path"
@@ -130,12 +156,12 @@ run_pylint() {
 # Function to run pytype and merge .pyi files
 run_pytype_and_merge_pyi() {
     code_path=$1
-    
+
     if [ -n "$code_path" ]; then
         if [ -f "$code_path" ]; then
             # Run pytype on the individual file
-            run_command "Running pytype on $code_path:" "pytype $code_path"
-            
+            run_command "Running pytype on $code_path:" "pytype $code_path --output "
+
             # Determine the .pyi file path
             file_name=$(basename "$code_path" .py)
             pyi_file=".pytype/pyi/${file_name}.pyi"
@@ -148,7 +174,7 @@ run_pytype_and_merge_pyi() {
             fi
         elif [ -d "$code_path" ]; then
             # Run pytype on all .py files in the directory
-            run_command "Running pytype on all .py files in $code_path:" "pytype $code_path/*.py"
+            run_command "Running pytype on all .py files in $code_path:" "pytype $code_path/*.py --output"
 
             # Loop through .py files and merge their corresponding .pyi files
             for py_file in "$code_path"/*.py; do

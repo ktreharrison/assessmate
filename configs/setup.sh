@@ -7,12 +7,12 @@ if ! command -v pip &> /dev/null; then
 fi
 
 # Create a virtual environment
-python3 -m venv .venv
+python3.10 -m venv .venv
 source $(pwd)/.venv/bin/activate
 $(pwd)/.venv/bin/python3 -m pip install --upgrade pip
 
 # Install required Python packages
-pip install -r requirements.txt
+pip install -r configs/requirements.txt
 
 # Install system-level tools
 case "$OSTYPE" in
