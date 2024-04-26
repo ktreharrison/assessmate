@@ -27,7 +27,7 @@ Additionally, the script offers functionality to clean cache and temporary files
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/ktreharrison/your_repository.git
+    git clone https://github.com/ktreharrison/assessmate.git
     ```
 
 2. Navigate to the directory:
