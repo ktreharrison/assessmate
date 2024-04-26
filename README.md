@@ -6,7 +6,7 @@ It performs a series of tasks including code style checks, code formatting, secu
 
 Additionally, the script offers functionality to clean cache and temporary files to maintain codebase hygiene. Overall, it provides a convenient and efficient way to ensure code quality and security in Python projects
 
-> ***Prerequisite***: Python must be installed on your system in order to run the script.
+> **_Prerequisite_**: Python must be installed on your system in order to run the script.
 
 ---
 
@@ -26,21 +26,21 @@ Additionally, the script offers functionality to clean cache and temporary files
 
 1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/ktreharrison/assessmate.git
-    ```
+   ```bash
+   git clone https://github.com/ktreharrison/assessmate.git
+   ```
 
 2. Navigate to the directory:
 
-    ```bash
-    cd your_repository
-    ```
+   ```bash
+   cd assessmate
+   ```
 
 3. Run the setup script:
 
-    ```bash
-    ./setup.sh
-    ```
+   ```bash
+   ./setup.sh
+   ```
 
 ---
 
@@ -54,9 +54,9 @@ To use the script, follow these steps:
 
 Follow the on-screen prompts to analyze your Python code.
 
-| Before | After |
-|--------|--------|
-| ![demo code prescript](assets/image-2.png) | ![demo code after script](assets/image-1.png)|
+| Before                                     | After                                         |
+| ------------------------------------------ | --------------------------------------------- |
+| ![demo code prescript](assets/image-2.png) | ![demo code after script](assets/image-1.png) |
 
 ---
 
