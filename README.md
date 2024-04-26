@@ -39,7 +39,7 @@ Additionally, the script offers functionality to clean cache and temporary files
 3. Run the setup script:
 
    ```bash
-   ./setup.sh
+   configs/setup.sh
    ```
 
 ---
