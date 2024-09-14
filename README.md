@@ -13,12 +13,12 @@ Additionally, the script offers functionality to clean cache and temporary files
 ## Table of Contents
 
 - [AssessMate](#assessmate)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Configuration](#configuration)
-  - [Contributing](#contributing)
-  - [License](#license)
+ - [Table of Contents](#table-of-contents)
+ - [Installation](#installation)
+ - [Usage](#usage)
+ - [Configuration](#configuration)
+ - [Contributing](#contributing)
+ - [License](#license)
 
 ---
 
